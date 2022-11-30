@@ -4,6 +4,7 @@ import Register from "./Components/Accounts/Register";
 import AuthLayout from "./Components/Layouts/AuthLayout";
 import MainLayout from "./Components/Layouts/MainLayout";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ForgetPassword from "./Components/Accounts/ForgetPassword";
 
 
 const App = () => {
@@ -15,6 +16,8 @@ const App = () => {
                     <Route path="/account" element={<AuthLayout />} >
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
+                        <Route path="forgetpassword" element={<ForgetPassword />} />
+
                     </Route>
                     <Route path="/dashboard" element={<MainLayout />} />
                 </Routes>

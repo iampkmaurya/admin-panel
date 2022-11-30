@@ -1,0 +1,4 @@
+.invalid-feedback {display: block;} 
+
+.validation .invalid-feedback{ display: none;}
+.validation .invalid-feedback:nth-child(1){ display: block;}
