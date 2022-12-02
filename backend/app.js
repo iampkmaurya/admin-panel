@@ -1,6 +1,7 @@
 const express = require("express");
 var jwt = require('jsonwebtoken');
 
+const db = require('./models');
 
 const app = express();
 
@@ -11,6 +12,16 @@ const cors = require('cors');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
+
+(async () => {
+    try {
+        await db.sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    }
+})();
+
 
 var corsOptions = {
     origin: 'http://localhost:3000',
