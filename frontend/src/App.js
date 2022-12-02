@@ -12,14 +12,17 @@ const App = () => {
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/account/login" />} />
+                    {/* <Route path="/" element={<Navigate to="/account/login" />} /> */}
                     <Route path="/account" element={<AuthLayout />} >
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
                         <Route path="forgetpassword" element={<ForgetPassword />} />
 
                     </Route>
-                    <Route path="/dashboard" element={<MainLayout />} />
+                    <Route path="/" element={<MainLayout />} >
+                        <Route path="dashboard" element={<h1>this is dashboard</h1>} />
+                        <Route path="profile" element={<h1>Profile</h1>} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </>
