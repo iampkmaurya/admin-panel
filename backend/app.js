@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 (async () => {
     try {
         await db.sequelize.authenticate();
+        await db.sequelize.sync();
         console.log('Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
@@ -31,9 +32,8 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
 
-    //res.json({ msg: 'hey there' });
 
     if (req.body.username == 'admin' && req.body.password == 'admin') {
         const jwtToken = jwt.sign(
@@ -51,6 +51,30 @@ app.post('/login', (req, res) => {
     }
 
 });
+
+
+
+app.post('/account/register', async (req, res) => {
+
+    try {
+
+        const body = req.body;
+
+        await db.User.create({
+            firstName: body.name,
+            lastName: body.name,
+            email: body.email,
+            password: body.password
+        });
+
+
+        res.json({ status: true, msg: 'successfully register' });
+    } catch (error) {
+        res.json({ status: false, msg: 'registration unsuccesful' });
+    }
+
+
+})
 
 
 app.listen('2000', () => {

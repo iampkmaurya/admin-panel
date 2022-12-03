@@ -34,6 +34,7 @@ const Register = () => {
 
 
 
+
     const onSubmit = (e) => {
         //Validating Form
         setInvalidName({ ...isRequired(nameRef.current.value), ...isMinLength(nameRef.current.value, 10), ...isMaxLength(nameRef.current.value, 30) });
@@ -52,6 +53,31 @@ const Register = () => {
         //     setInvalidPassword(true);
         // }
         // console.log(nameRef.current.value);
+
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "name": nameRef.current.value,
+            "password": passwordRef.current.value,
+            "email": emailRef.current.value
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:2000/account/register", requestOptions)
+            .then(response => response.text())
+            .then(result => alert('SuccessFully Register'))
+            .catch(error => console.log('error', error));
+
+
+
 
         e.preventDefault();
     }
