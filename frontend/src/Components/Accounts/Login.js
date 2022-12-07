@@ -18,8 +18,7 @@ const Login = () => {
         if (token) {
             navigate('/dashboard');
         }
-    }, []
-    )
+    }, [])
 
 
     const onSubmit = (e) => {
@@ -27,7 +26,9 @@ const Login = () => {
             ...isRequired(emailRef.current.value), ...isMinLength(emailRef.current.value, 2), ...isMaxLength(emailRef.current.value, 30)
         });
         setInvalidPassword({ ...isRequired(passwordRef.current.value) });
-
+        if (invalidEmail.required || invalidPassword.required) {
+            return;
+        }
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -50,7 +51,6 @@ const Login = () => {
             .then(result => verifyLoginResponse(result))
             .catch(error => console.log('error', error));
 
-
         e.preventDefault();
     }
 
@@ -69,8 +69,8 @@ const Login = () => {
             localStorage.setItem('token', response.data.token);
             navigate('/dashboard');
 
-
         } else {
+            alert('User Doesnot Exist');
         }
     }
 
@@ -90,9 +90,12 @@ const Login = () => {
                             <input type="password" className="form-control" id="password" placeholder="Password" ref={passwordRef} />
                         </InputElement>
                     </div>
-                    <div className="col-12">
+                    <div className="col-6">
                         <button type="submit" className="btn btn-primary me-4" >Login</button>
                         <Link to='/account/forgetpassword'>Forget Password</Link>
+                    </div>
+                    <div className="col-6 text-end">
+                        <Link to='/account/register'>Register</Link>
                     </div>
                 </form>
             </div>

@@ -34,21 +34,41 @@ app.use(cors(corsOptions));
 
 app.post('/login', async (req, res) => {
 
+    const user = await db.User.findOne({ where: { email: req.body.username } });
 
-    if (req.body.username == 'admin' && req.body.password == 'admin') {
+    if (!user) {
+        res.json({ status: false, msg: 'login unsuccesful' });
+        return;
+    }
+
+    if (req.body.password == user.password) {
         const jwtToken = jwt.sign(
             { id: 1, username: req.body.username },
             'sldkfjlskjflksjdflkjs;lkfdjlksajfoij83479832794kjlkjdslkj01209',
             { expiresIn: "10h" }
         )
 
-
-
         res.json({ status: true, msg: 'successfully loggedin', data: { token: jwtToken } });
     }
     else {
         res.json({ status: false, msg: 'login unsuccesful' });
     }
+
+});
+
+
+app.get('/dashboard', async (req, res) => {
+
+
+    res.json({
+        status: true,
+        message: '',
+        data: {
+            userCount: await db.User.count(),
+            loginFailed: 106,
+            loginSucess: 107
+        }
+    })
 
 });
 
@@ -61,8 +81,8 @@ app.post('/account/register', async (req, res) => {
         const body = req.body;
 
         await db.User.create({
-            firstName: body.name,
-            lastName: body.name,
+            firstName: body.fName,
+            lastName: body.lName,
             email: body.email,
             password: body.password
         });

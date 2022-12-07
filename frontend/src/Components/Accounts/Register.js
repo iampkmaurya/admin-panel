@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import InputElement from "../FormControls/InputElement";
-import { isRequired, isMinLength, isMaxLength } from "../CommonValidation";
+import { isRequired } from "../CommonValidation";
+import { Link } from "react-router-dom";
 
 const Register = () => {
 
@@ -11,13 +12,14 @@ const Register = () => {
     // const [password, setPassword] = useState(''); // Password
     // const [cpassword, setCPassword] = useState(''); // CPassword
 
-    const nameRef = useRef('');// Name ref
-    const emailRef = useRef('');// Name ref
+    const fNameRef = useRef('');// First Name ref
+    const lNameRef = useRef('');// First Name ref
+    const emailRef = useRef('');// Email ref
     const dateOfBirthRef = useRef('');// DOB ref
     const passwordRef = useRef('');// Password ref
     const cPasswordRef = useRef('');// CPassword ref
 
-    const [invalidName, setInvalidName] = useState({});
+    // const [invalidName, setInvalidName] = useState({});
     const [invalidEmail, setInvalidEmail] = useState({});
     const [invalidPassword, setInvalidPassword] = useState({});
     const [invalidCPassword, setInvalidCPassword] = useState({});
@@ -37,10 +39,25 @@ const Register = () => {
 
     const onSubmit = (e) => {
         //Validating Form
-        setInvalidName({ ...isRequired(nameRef.current.value), ...isMinLength(nameRef.current.value, 10), ...isMaxLength(nameRef.current.value, 30) });
-        setInvalidEmail({ required: isRequired(emailRef.current.value) });
-        setInvalidPassword({ required: isRequired(passwordRef.current.value) });
-        setInvalidCPassword({ required: isRequired(cPasswordRef.current.value) });
+        // setInvalidName({ ...isRequired(nameRef.current.value), ...isMinLength(nameRef.current.value, 10), ...isMaxLength(nameRef.current.value, 30) });
+        const emailValidation = { ...isRequired(emailRef.current.value) };
+        const passwordValidation = { ...isRequired(passwordRef.current.value) };
+        const cPasswordValidation = { ...isRequired(cPasswordRef.current.value) };
+        const validation = {
+            email: emailValidation,
+            password: passwordValidation,
+            cPassword: cPasswordValidation,
+        }
+
+        const validationCheck = Object.values(validation).map(x => Object.values(x));
+        setInvalidEmail(emailValidation);
+        setInvalidPassword(passwordValidation);
+        setInvalidCPassword(cPasswordValidation);
+
+        if (validationCheck.some(x => x === true)) {
+            e.preventDefault();
+            return;
+        }
 
         // setInvalidPassword(false);
         // if (!nameRef.current.value) {
@@ -59,7 +76,8 @@ const Register = () => {
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "name": nameRef.current.value,
+            "fName": fNameRef.current.value,
+            "lName": lNameRef.current.value,
             "password": passwordRef.current.value,
             "email": emailRef.current.value
         });
@@ -77,8 +95,6 @@ const Register = () => {
             .catch(error => console.log('error', error));
 
 
-
-
         e.preventDefault();
     }
 
@@ -87,12 +103,20 @@ const Register = () => {
             <div className="container">
                 <h3 className="display-6">Registration</h3>
                 <form className="row g-3 bg-light p-4 mt-4" onSubmit={(e) => onSubmit(e)} noValidate >
-                    <div className="col-md-12">
+                    <div className="col-md-6">
                         {/* <label htmlFor="inputName" className="form-label">Name</label>
                         <input type="text" className="form-control" id="inputName" placeholder="Name" ref={nameRef} />
                         {invalidName && <div className="invalid-feedback" >Required!</div>} */}
-                        <InputElement label='Name' validation={invalidName} >
-                            <input className="form-control" id="inputName" placeholder="Name" ref={nameRef} />
+                        <InputElement label='First Name'>
+                            <input className="form-control" id="inputName" placeholder="First Name" ref={fNameRef} />
+                        </InputElement>
+                    </div>
+                    <div className="col-md-6">
+                        {/* <label htmlFor="inputName" className="form-label">Name</label>
+                        <input type="text" className="form-control" id="inputName" placeholder="Name" ref={nameRef} />
+                        {invalidName && <div className="invalid-feedback" >Required!</div>} */}
+                        <InputElement label='Last Name' >
+                            <input className="form-control" id="inputName" placeholder="Last Name" ref={lNameRef} />
                         </InputElement>
                     </div>
                     <div className="col-6">
@@ -122,8 +146,11 @@ const Register = () => {
                         {/* <label htmlFor="cpassword" className="form-label">Confirm Password</label>
                         <input type="password" className="form-control" id="cpassword" placeholder="Confirm Password" ref={cPasswordRef} /> */}
                     </div>
-                    <div className="col-12">
+                    <div className="col-6">
                         <button type="submit" className="btn btn-primary" >Register</button>
+                    </div>
+                    <div className="col-6 text-end">
+                        <Link to='/account/login'>Already Register</Link>
                     </div>
                 </form>
             </div>

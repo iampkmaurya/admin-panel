@@ -5,6 +5,7 @@ import AuthLayout from "./Components/Layouts/AuthLayout";
 import MainLayout from "./Components/Layouts/MainLayout";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ForgetPassword from "./Components/Accounts/ForgetPassword";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
 
                     </Route>
                     <Route path="/" element={<MainLayout />} >
-                        <Route path="dashboard" element={<h1>this is dashboard</h1>} />
+                        <Route path="dashboard" element={<Dashboard />} />
                         <Route path="profile" element={<h1>Profile</h1>} />
                     </Route>
                 </Routes>

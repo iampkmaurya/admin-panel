@@ -21,6 +21,7 @@ const MainLayout = () => {
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
+                    <h4>Admin Panel</h4>
                     <button type="button" className="btn btn-primary" onClick={(e) => logOut()}>Logout</button>
                 </div>
             </nav>
