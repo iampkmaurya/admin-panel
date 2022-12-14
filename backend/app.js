@@ -73,6 +73,30 @@ app.get('/dashboard', async (req, res) => {
 });
 
 
+app.get('/users', async (req, res) => {
+
+    const pageSize = req.query.pageSize ?? 2;
+
+    const users = await db.User.findAll({
+        limit: pageSize,
+        offset: (req.query.pageNumber - 1) * req.query.pageSize ?? 0
+    });
+
+
+    const total = await db.User.count();
+
+    const response =
+    {
+        users: users,
+        counts: total,
+        totalPage: Math.ceil(total / pageSize)
+    }
+
+
+    return res.json(response);
+});
+
+
 
 app.post('/account/register', async (req, res) => {
 

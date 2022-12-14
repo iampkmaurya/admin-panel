@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Users from "./Users";
 
 const Dashboard = () => {
 
@@ -51,6 +52,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
+                <Users />
             </div>
         </>
     )
