@@ -44,21 +44,19 @@ const Users = () => {
             <tbody>
                 {
                     userData.map(x => {
-                        return <>
-                            <tr key={x.id}>
-                                <td >{x.id}</td>
-                                <td>{x.firstName}</td>
-                                <td>{x.lastName}</td>
-                                <td>{x.email}</td>
-                            </tr>
-                        </>
+                        return <tr key={x.id}>
+                            <td >{x.id}</td>
+                            <td>{x.firstName}</td>
+                            <td>{x.lastName}</td>
+                            <td>{x.email}</td>
+                        </tr>
+
                     })
 
                 }
             </tbody>
         </table>
         <Pagination noOfPages={totalPage} goToPage={goToPage} />
-
     </>
 }
 

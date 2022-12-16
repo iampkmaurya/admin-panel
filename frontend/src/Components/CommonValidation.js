@@ -15,3 +15,4 @@ export { isRequired, isMinLength, isMaxLength }
 // { minLength: true }
 
 //{ ...{ required: true }, ...{ minLength: true }  }  => { required: true, minLength: true }
+
